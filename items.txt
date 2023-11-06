@@ -1,0 +1,3 @@
+Milk,DAIRY,2.49
+Milk,DAIRY,2.49
+Milk,DAIRY,2.49
