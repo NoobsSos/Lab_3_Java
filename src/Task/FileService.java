@@ -7,9 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
-public class Files {
+public class FileService {
     public static void saveItemsToFile(String filePath, Item item, boolean shouldBeDeleted) {
         if (shouldBeDeleted) {
             File file = new File(filePath);
@@ -18,6 +17,15 @@ public class Files {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
             String line = item.getName() + "," + item.getType() + "," + item.getPrice();
             writer.write(line);
+            writer.write("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveTextToFile(String filePath, String text) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
+            writer.write(text);
             writer.write("\n");
         } catch (IOException e) {
             e.printStackTrace();

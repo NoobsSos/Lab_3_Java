@@ -1,13 +1,13 @@
 package Task;
 
-import java.io.FileOutputStream;
+import Task.Exception.BillAlreadyPaid;
+import Task.Exception.ItemIsNotAvailable;
+
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, BillAlreadyPaid, ItemIsNotAvailable {
         // Створення п'яти продуктів
         Item[] items = new Item[5];
         items[0] = new Item("Tomato", ItemTypes.VEGETABLE, 1.99);
@@ -16,18 +16,28 @@ public class Main {
         items[3] = new Item("Salmon", ItemTypes.FISH, 6.99);
         items[4] = new Item("Milk", ItemTypes.DAIRY, 2.49);
 
-        Files files = new Files();
+        FileService fileService = new FileService();
 //        files.saveItemsToFile("items.txt", items[2]);
 //        files.saveItemsToFile("items.txt", items[2]);
 //        files.saveItemsToFile("items.txt", items[2]);
+        Bill bill = new Bill();
         Shop shop = new Shop();
-        shop.sellItem(items[2], new Bill());
+        shop.sellItem(items[2], bill);
+        shop.sellItem(items[0], bill);
+        shop.sellItem(items[4], bill);
+        shop.sellItem(items[1], bill);
+        shop.addItem(items[0]);
+        shop.addItem(items[1]);
+        shop.addItem(items[2]);
         shop.addItem(items[4]);
-//        shop.sellItem(items[2], new Bill());
+        shop.sortAvailableItemsByPrice();
+        System.out.println(shop.getAveragePrice());
         shop.printItem();
-//        shop.sellItem(items[2], new Bill());
-//        shop.sellItem(items[2], new Bill());
-        ArrayList<Item> data = Files.loadItemsFromFile("items.txt");
+        System.out.println("--------------------");
+        System.out.println(shop.getMostPopularSoldItem());
+
+        bill.generateBill();
+//        shop.sellItem(items[4], bill);
 
     }
 
